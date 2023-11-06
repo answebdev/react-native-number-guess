@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         // Left and right margin:
         marginHorizontal: 24,
         padding: 16,
-        backgroundColor: '#4e0329',
+        backgroundColor: '#3b021f',
         borderRadius: 8,
         // Android shadow properties:
         elevation: 4,
