@@ -1,7 +1,43 @@
-import { TextInput, View, StyleSheet } from 'react-native';
+import { useState } from 'react';
+import { TextInput, View, StyleSheet, Alert } from 'react-native';
 import PrimaryButton from '../components/PrimaryButton';
 
 function StartGameScreen() {
+    const [enteredNumber, setEnteredNumber] = useState('');
+
+    function numberInputHandler(enteredText) {
+        setEnteredNumber(enteredText);
+    }
+
+    function resetInputHandler() {
+        setEnteredNumber('');
+    }
+
+    function confirmInputHandler() {
+        // Check if current state is a number,
+        // greater or equal to 1,
+        // and smaller or equal to 99
+        // If it's valid, then proceed to next screen, or show an alert otherwise.
+
+        // Here, we want to convert the 'enteredNumber' state, which is a string (''), to a number, using 'parseInt'.
+        const chosenNumber = parseInt(enteredNumber);
+
+        // 'isNaN' = is not a number
+        if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
+            Alert.alert('Invalid number!',
+                'Number has to be a number between 1 and 99',
+                [{ text: 'Okay', style: 'destructive', onPress: resetInputHandler }]
+            );
+            // Return so that this function does not continue its execution
+            // if we make it into this if statement,
+            // so that we cancel this function's execution.
+            return;
+            // Show alert if invalid
+        }
+
+        console.log('Valid number!');
+    }
+
     return (
         <View style={styles.inputContainer}>
             <TextInput
@@ -10,13 +46,15 @@ function StartGameScreen() {
                 keyboardType='number-pad'
                 autoCapitalize='none'
                 autoCorrect={false}
+                onChangeText={numberInputHandler}
+                value={enteredNumber}
             />
             <View style={styles.buttonsContainer}>
                 <View style={styles.buttonContainer}>
-                    <PrimaryButton>Confirm</PrimaryButton>
+                    <PrimaryButton myOnPress={confirmInputHandler}>Confirm</PrimaryButton>
                 </View>
                 <View style={styles.buttonContainer}>
-                    <PrimaryButton>Reset</PrimaryButton>
+                    <PrimaryButton myOnPress={resetInputHandler}>Reset</PrimaryButton>
                 </View>
             </View>
         </View>

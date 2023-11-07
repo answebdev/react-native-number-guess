@@ -1,10 +1,8 @@
 // Custom button component that can be used throughout the app
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 
-function PrimaryButton({ children }) {
-    function pressHandler() {
-        console.log("PRESSED");
-    }
+function PrimaryButton({ children, myOnPress }) {
+
 
     // We are not executing th 'pressHandler' function.
     // Instead, we are merely pointing to the function, so that it is executed when a press occurs,
@@ -16,7 +14,7 @@ function PrimaryButton({ children }) {
                     pressed
                         ? [styles.buttonInnerContainer, styles.pressed]
                         : styles.buttonInnerContainer}
-                onPress={pressHandler}
+                onPress={myOnPress}
                 android_ripple={{ color: '#640233' }}
             >
                 <Text style={styles.buttonText}>{children}</Text>
