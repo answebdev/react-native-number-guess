@@ -23,6 +23,7 @@ function StartGameScreen({ onPickNumber }) {
         const chosenNumber = parseInt(enteredNumber);
 
         // 'isNaN' = is not a number
+        // Show alert if invalid
         if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
             Alert.alert('Invalid number!',
                 'Number has to be a number between 1 and 99',
@@ -32,7 +33,6 @@ function StartGameScreen({ onPickNumber }) {
             // if we make it into this if statement,
             // so that we cancel this function's execution.
             return;
-            // Show alert if invalid
         }
 
         onPickNumber(chosenNumber);
