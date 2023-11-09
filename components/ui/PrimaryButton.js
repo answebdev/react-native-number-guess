@@ -1,6 +1,6 @@
 // Custom button component that can be used throughout the app
 import { View, Text, Pressable, StyleSheet } from 'react-native';
-import Colors from '../constants/colors';
+import Colors from '../../constants/colors';
 
 function PrimaryButton({ children, myOnPress }) {
 

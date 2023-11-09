@@ -5,6 +5,8 @@ import GameScreen from './screens/GameScreen';
 import Colors from './constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
 
+// Code: https://github.com/academind/react-native-practical-guide-code
+
 export default function App() {
   const [userNumber, setUserNumber] = useState();
 
