@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Alert } from "react-native";
 import Title from "../components/ui/Title";
 import NumberContainer from "../components/game/NumberContainer";
@@ -23,13 +23,23 @@ function generateRandomBetween(min, max, exclude) {
 let minBoundary = 1;
 let maxBoundary = 100;
 
-function GameScreen({ userNumber }) {
+function GameScreen({ userNumber, onGameOver }) {
     // Generate a random number between 1 and 100,
     // and exclude the number chosen by the user ('userNumber') on the Start screen,
     // so that the phone cannot guess this 'userNumber' when that state is initialized:
-    const initialGuess = generateRandomBetween(minBoundary, maxBoundary, userNumber);
+    const initialGuess = generateRandomBetween(1, 100, userNumber);
     // Current guess made by the phone:
     const [currentGuess, setCurrentGuess] = useState(initialGuess);
+
+    // Whenever the currentGuess or userNumber or onGameOver function changes,
+    // this effect will be re-executed, and it will check if the game is over,
+    // in which case, 'onGameOver' will then be called
+    // ('onGameOver' points to 'gameOverHandler', which is in App.js):
+    useEffect(() => {
+        if (currentGuess === userNumber) {
+            onGameOver();
+        }
+    }, [currentGuess, userNumber, onGameOver]);
 
     // Handle the next guess when user presses + or - buttons.
     // 'direction' is for either 'lower' (if the next number should be lower than the previous number),
