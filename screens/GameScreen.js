@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { View, Text, StyleSheet, SafeAreaView } from "react-native";
+import { View, Text, StyleSheet, Alert } from "react-native";
 import Title from "../components/ui/Title";
 import NumberContainer from "../components/game/NumberContainer";
+import PrimaryButton from "../components/ui/PrimaryButton";
 
 // Generate a random number.
 // 'exclude' allows us to exclude a certain number from being generated.
@@ -19,13 +20,38 @@ function generateRandomBetween(min, max, exclude) {
     }
 }
 
+let minBoundary = 1;
+let maxBoundary = 100;
+
 function GameScreen({ userNumber }) {
     // Generate a random number between 1 and 100,
     // and exclude the number chosen by the user ('userNumber') on the Start screen,
     // so that the phone cannot guess this 'userNumber' when that state is initialized:
-    const initialGuess = generateRandomBetween(1, 100, userNumber);
+    const initialGuess = generateRandomBetween(minBoundary, maxBoundary, userNumber);
     // Current guess made by the phone:
     const [currentGuess, setCurrentGuess] = useState(initialGuess);
+
+    // Handle the next guess when user presses + or - buttons.
+    // 'direction' is for either 'lower' (if the next number should be lower than the previous number),
+    // or 'greater' (if the next number should be greater than the previous number).
+    function nextGuessHandler(direction) {
+        if ((direction === 'lower' && currentGuess < userNumber) || (direction === 'greater' && currentGuess > userNumber)) {
+            Alert.alert(
+                "Dont' lie!",
+                "You know that this is wrong...",
+                [{ text: 'Sorry!', style: 'cancel' }]);
+            return;
+        }
+
+        if (direction === 'lower') {
+            maxBoundary = currentGuess;
+        } else {
+            minBoundary = currentGuess + 1;
+        }
+        // console.log(minBoundary, maxBoundary);
+        const newRndNumber = generateRandomBetween(minBoundary, maxBoundary, currentGuess);
+        setCurrentGuess(newRndNumber);
+    }
 
     return (
         <View style={styles.screen}>
@@ -33,8 +59,10 @@ function GameScreen({ userNumber }) {
             <NumberContainer>{currentGuess}</NumberContainer>
             <View>
                 <Text>Higher or lower?</Text>
-                {/* +
-                - */}
+                <View>
+                    <PrimaryButton myOnPress={nextGuessHandler.bind(this, 'greater')}>+</PrimaryButton>
+                    <PrimaryButton myOnPress={nextGuessHandler.bind(this, 'lower')}>-</PrimaryButton>
+                </View>
             </View>
             {/* <View>LOG ROUNDS</View> */}
         </View>
