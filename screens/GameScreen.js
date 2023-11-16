@@ -44,6 +44,11 @@ function GameScreen({ userNumber, onGameOver }) {
         }
     }, [currentGuess, userNumber, onGameOver]);
 
+    useEffect(() => {
+        minBoundary = 1;
+        maxBoundary = 100;
+    }, []);
+
     // Handle the next guess when user presses + or - buttons.
     // 'direction' is for either 'lower' (if the next number should be lower than the previous number),
     // or 'greater' (if the next number should be greater than the previous number).
