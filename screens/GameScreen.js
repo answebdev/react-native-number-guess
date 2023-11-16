@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { View, StyleSheet, Alert } from "react-native";
+import { View, StyleSheet, Alert, Text, FlatList } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import Title from "../components/ui/Title";
 import NumberContainer from "../components/game/NumberContainer";
@@ -33,6 +33,9 @@ function GameScreen({ userNumber, onGameOver }) {
     const initialGuess = generateRandomBetween(1, 100, userNumber);
     // Current guess made by the phone:
     const [currentGuess, setCurrentGuess] = useState(initialGuess);
+    // We want to log the number that was guessed for each round in an array -
+    // the initial value is the initial guess ('initialGuess'):
+    const [guessRounds, setGuessRounds] = useState([initialGuess]);
 
     // Whenever the currentGuess or userNumber or onGameOver function changes,
     // this effect will be re-executed, and it will check if the game is over,
@@ -69,6 +72,7 @@ function GameScreen({ userNumber, onGameOver }) {
         // console.log(minBoundary, maxBoundary);
         const newRndNumber = generateRandomBetween(minBoundary, maxBoundary, currentGuess);
         setCurrentGuess(newRndNumber);
+        setGuessRounds(prevGuessRounds => [newRndNumber, ...prevGuessRounds]);
     }
 
     return (
@@ -90,6 +94,14 @@ function GameScreen({ userNumber, onGameOver }) {
                     </View>
                 </View>
             </Card>
+            <View>
+                {/* First Way To Output Guessed Numbers: */}
+                {/* {guessRounds.map(guessRound => <Text key={guessRound}>{guessRound}</Text>)} */}
+                {/* Second Way To Output Guessed Numbers (Using FlatList): */}
+                <FlatList data={guessRounds} renderItem={(itemData) => <Text>{itemData.item}</Text>}
+                    keyExtractor={(item) => item}
+                />
+            </View>
         </View>
     );
 }
