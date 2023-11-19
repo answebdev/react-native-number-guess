@@ -7,6 +7,7 @@ import Colors from './constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
+import { StatusBar } from 'expo-status-bar';
 
 // Code: https://github.com/academind/react-native-practical-guide-code
 
@@ -59,22 +60,25 @@ export default function App() {
   }
 
   return (
-    <LinearGradient
-      colors={[Colors.primary700, Colors.accent500]}
-      style={styles.rootScreen}
-    >
-      {/* Image comes from https://unsplash.com/ */}
-      <ImageBackground
-        source={require('./assets/images/background.png')}
-        resizeMode='cover'
+    <>
+      <StatusBar style='light' />
+      <LinearGradient
+        colors={[Colors.primary700, Colors.accent500]}
         style={styles.rootScreen}
-        imageStyle={styles.backgroundImage}
       >
-        <SafeAreaView style={styles.rootScreen}>
-          {screen}
-        </SafeAreaView>
-      </ImageBackground>
-    </LinearGradient>
+        {/* Image comes from https://unsplash.com/ */}
+        <ImageBackground
+          source={require('./assets/images/background.png')}
+          resizeMode='cover'
+          style={styles.rootScreen}
+          imageStyle={styles.backgroundImage}
+        >
+          <SafeAreaView style={styles.rootScreen}>
+            {screen}
+          </SafeAreaView>
+        </ImageBackground>
+      </LinearGradient>
+    </>
   );
 }
 
